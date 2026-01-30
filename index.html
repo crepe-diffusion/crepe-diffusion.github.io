@@ -155,6 +155,9 @@
   </div>
 </section>
 
+
+
+
 <section class="hero teaser">
   <div class="container is-max-desktop">
     <div class="hero-body">
@@ -238,31 +241,14 @@
         <h2 class="title is-3">Abstract</h2>
         <div class="content has-text-justified">
           <p>
-            We present the first method capable of photorealistically reconstructing a non-rigidly
-            deforming scene using photos/videos captured casually from mobile phones.
+            How can we steer diffusion models toward new objectives without retraining?
           </p>
           <p>
-            Our approach augments neural radiance fields
-            (NeRF) by optimizing an
-            additional continuous volumetric deformation field that warps each observed point into a
-            canonical 5D NeRF.
-            We observe that these NeRF-like deformation fields are prone to local minima, and
-            propose a coarse-to-fine optimization method for coordinate-based models that allows for
-            more robust optimization.
-            By adapting principles from geometry processing and physical simulation to NeRF-like
-            models, we propose an elastic regularization of the deformation field that further
-            improves robustness.
+            CREPE introduces replica exchange as a powerful alternative to heuristic guidance or Sequential Monte Carlo for inference-time control. CREPE runs multiple controlled diffusion processes in parallel and exchanges information between them—achieving stable control, high diversity, and flexible trade-offs at generation time.
           </p>
           <p>
-            We show that <span class="dnerf">Nerfies</span> can turn casually captured selfie
-            photos/videos into deformable NeRF
-            models that allow for photorealistic renderings of the subject from arbitrary
-            viewpoints, which we dub <i>"nerfies"</i>. We evaluate our method by collecting data
-            using a
-            rig with two mobile phones that take time-synchronized photos, yielding train/validation
-            images of the same pose at different viewpoints. We show that our method faithfully
-            reconstructs non-rigidly deforming scenes and reproduces unseen views with high
-            fidelity.
+            CREPE supports online refinement, early stopping, and diverse sample generation, and works seamlessly across tasks such as temperature annealing (powering), reward tilting, model composition, and classifier-free guidance debiasing.
+            CREPE also applies to masked diffusion or continuous diffusions seamlessly.
           </p>
         </div>
       </div>
