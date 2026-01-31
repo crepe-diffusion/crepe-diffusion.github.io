@@ -271,24 +271,56 @@
       <div class="column is-full-width">
         <h2 class="title is-3">Overview</h2>
         <div class="content has-text-justified">
-          <p>Inference-time control of diffusion models aims to steer model outputs to satisfy new constraints without retraining. CREPE is a flexible alternative to Sequential Monte Carlo (SMC) based on replica exchange (parallel tempering): it generates particles sequentially, maintains high diversity after a burn-in period, and supports online refinement or early termination.</p>
+          <p>Inference-time control of diffusion models aims to steer model outputs to satisfy new constraints without retraining. CREPE is a flexible approach based on replica exchange (parallel tempering): it enables principled control of diffusion models, maintains high diversity of generated samples, and supports online refinement or early termination.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+<section class="section" id="Applications">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered">
+      <div class="column is-full-width">
+        <h2 class="title is-3">What you can do with CREPE</h2>
+        <div class="content">
           <div class="columns is-multiline">
-            <div class="column is-one-third">
+            <div class="column is-half">
               <div class="box">
-                <p class="title is-5">Computationally dual to SMC</p>
-                <p class="subtitle is-6">Parallel across noise levels, sequential in time.</p>
+                <p class="title is-5">Reward tilting / prompt alignment</p>
+                <p class="subtitle is-6">Steer samples toward a reward while correcting bias.</p>
               </div>
             </div>
-            <div class="column is-one-third">
+            <div class="column is-half">
               <div class="box">
-                <p class="title is-5">Diversity after burn-in</p>
-                <p class="subtitle is-6">Exchange keeps exploration broad while sharpening samples.</p>
+                <p class="title is-5">Inverse problem solving</p>
+                <p class="subtitle is-6">Solve inverse problems by controlling the diffusion model prior.</p>
               </div>
             </div>
-            <div class="column is-one-third">
+            <div class="column is-half">
               <div class="box">
-                <p class="title is-5">Anytime &amp; online refinement</p>
-                <p class="subtitle is-6">Stop early, or add new constraints without restarting.</p>
+                <p class="title is-5">Temperature annealing (powering)</p>
+                <p class="subtitle is-6">Sharpen distributions to a lower temperature level.</p>
+              </div>
+            </div>
+            <div class="column is-half">
+              <div class="box">
+                <p class="title is-5">Model composition</p>
+                <p class="subtitle is-6">Compose objectives via product of diffusion experts.</p>
+              </div>
+            </div>
+            <div class="column is-half">
+              <div class="box">
+                <p class="title is-5">CFG debiasing</p>
+                <p class="subtitle is-6">Debias classifier-free guidance via a principled sampler.</p>
+              </div>
+            </div>
+            <div class="column is-half">
+              <div class="box">
+                <p class="title is-5">Modality-agnostic control</p>
+                <p class="subtitle is-6">Control models for both continuous and discrete diffusion models within a unified framework.</p>
               </div>
             </div>
           </div>
@@ -297,6 +329,7 @@
     </div>
   </div>
 </section>
+
 
 <section class="section" id="KeyIdea">
   <div class="container is-max-desktop">
@@ -321,43 +354,6 @@
   </div>
 </section>
 
-<section class="section" id="Applications">
-  <div class="container is-max-desktop">
-    <div class="columns is-centered">
-      <div class="column is-full-width">
-        <h2 class="title is-3">What you can do with CREPE</h2>
-        <div class="content">
-          <div class="columns is-multiline">
-            <div class="column is-half">
-              <div class="box">
-                <p class="title is-5">Reward tilting / prompt alignment</p>
-                <p class="subtitle is-6">Steer samples toward a reward while correcting bias.</p>
-              </div>
-            </div>
-            <div class="column is-half">
-              <div class="box">
-                <p class="title is-5">Temperature annealing</p>
-                <p class="subtitle is-6">Smoothly sharpen distributions while keeping exploration.</p>
-              </div>
-            </div>
-            <div class="column is-half">
-              <div class="box">
-                <p class="title is-5">Model composition</p>
-                <p class="subtitle is-6">Compose objectives via exchange instead of ad-hoc mixing.</p>
-              </div>
-            </div>
-            <div class="column is-half">
-              <div class="box">
-                <p class="title is-5">CFG debiasing</p>
-                <p class="subtitle is-6">Debias classifier-free guidance via a principled sampler.</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
 
 <section class="section" id="Results">
   <div class="container is-max-desktop">
