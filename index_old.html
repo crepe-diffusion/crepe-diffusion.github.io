@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="description"
-        content="CREPE: inference-time diffusion control via replica exchange (parallel tempering). Diverse samples after burn-in, online refinement, anytime stopping.">
+        content="Controlling Diffusion models with Replica Exchange.">
   <meta name="keywords" content="Diffusion models, Replica Exchange, Control, CREPE, RNE">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>CREPE: Controlling Diffusion with Replica Exchange</title>
@@ -167,7 +167,8 @@
         style="width: 100%; height: auto;"
       />
       <h2 class="subtitle has-text-centered">
-        <span class="dnerf">CREPE</span> swaps, not resamples: a Parallel-Tempering alternative to SMC for inference-time diffusion control—diverse samples after burn-in, online refinement, anytime stopping.</h2>
+        <span class="dnerf">CREPE</span> controls diffusion models in a flexible, plug-and-play and principled way.
+      </h2>
     </div>
   </div>
 </section>
@@ -260,128 +261,6 @@
     </div> -->
     <!--/ Concurrent Work. -->
 
-  </div>
-</section>
-
-
-
-<section class="section" id="Overview">
-  <div class="container is-max-desktop">
-    <div class="columns is-centered">
-      <div class="column is-full-width">
-        <h2 class="title is-3">Overview</h2>
-        <div class="content has-text-justified">
-          <p>Inference-time control of diffusion models aims to steer model outputs to satisfy new constraints without retraining. CREPE is a flexible alternative to Sequential Monte Carlo (SMC) based on replica exchange (parallel tempering): it generates particles sequentially, maintains high diversity after a burn-in period, and supports online refinement or early termination.</p>
-          <div class="columns is-multiline">
-            <div class="column is-one-third">
-              <div class="box">
-                <p class="title is-5">Computationally dual to SMC</p>
-                <p class="subtitle is-6">Parallel across noise levels, sequential in time.</p>
-              </div>
-            </div>
-            <div class="column is-one-third">
-              <div class="box">
-                <p class="title is-5">Diversity after burn-in</p>
-                <p class="subtitle is-6">Exchange keeps exploration broad while sharpening samples.</p>
-              </div>
-            </div>
-            <div class="column is-one-third">
-              <div class="box">
-                <p class="title is-5">Anytime &amp; online refinement</p>
-                <p class="subtitle is-6">Stop early, or add new constraints without restarting.</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="section" id="KeyIdea">
-  <div class="container is-max-desktop">
-    <div class="columns is-centered">
-      <div class="column is-full-width">
-        <h2 class="title is-3">Key idea: exchange across diffusion times</h2>
-        <div class="content has-text-justified">
-          <p>
-            CREPE runs multiple chains at different diffusion steps (noise levels). Each chain performs local updates,
-            and we periodically propose <em>swaps</em> between neighbouring noise levels with an acceptance rule.
-            This enables principled communication between easy-to-mix (high-noise) and high-fidelity (low-noise) states.
-          </p>
-        </div>
-        <figure>
-          <img src="./static/images/fig2_smc_vs_crepe.png" alt="SMC vs CREPE overview figure" style="width: 100%; height: auto;">
-          <figcaption class="has-text-centered">
-            SMC propagates many particles in parallel along the denoising path; CREPE generates sequentially while running chains in parallel across diffusion times.
-          </figcaption>
-        </figure>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="section" id="Applications">
-  <div class="container is-max-desktop">
-    <div class="columns is-centered">
-      <div class="column is-full-width">
-        <h2 class="title is-3">What you can do with CREPE</h2>
-        <div class="content">
-          <div class="columns is-multiline">
-            <div class="column is-half">
-              <div class="box">
-                <p class="title is-5">Reward tilting / prompt alignment</p>
-                <p class="subtitle is-6">Steer samples toward a reward while correcting bias.</p>
-              </div>
-            </div>
-            <div class="column is-half">
-              <div class="box">
-                <p class="title is-5">Temperature annealing</p>
-                <p class="subtitle is-6">Smoothly sharpen distributions while keeping exploration.</p>
-              </div>
-            </div>
-            <div class="column is-half">
-              <div class="box">
-                <p class="title is-5">Model composition</p>
-                <p class="subtitle is-6">Compose objectives via exchange instead of ad-hoc mixing.</p>
-              </div>
-            </div>
-            <div class="column is-half">
-              <div class="box">
-                <p class="title is-5">CFG debiasing</p>
-                <p class="subtitle is-6">Debias classifier-free guidance via a principled sampler.</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="section" id="Results">
-  <div class="container is-max-desktop">
-    <div class="columns is-centered">
-      <div class="column is-full-width">
-        <h2 class="title is-3">A quick visual: trajectories improve after burn-in</h2>
-        <div class="content has-text-justified">
-          <p>
-            Below is an example trajectory where CREPE refines samples over iterations under a prompted reward-tilt setting.
-            After burn-in, samples increasingly match the prompt while preserving diversity.
-          </p>
-        </div>
-        <figure>
-          <img src="./static/images/fig1_crepe_trajectory.png" alt="CREPE trajectory figure" style="width: 100%; height: auto;">
-          <figcaption class="has-text-centered">
-            Example CREPE trajectories for prompted reward-tilting (thinned across iterations).
-          </figcaption>
-        </figure>
-
-        <div class="content">
-          <p><strong>Tip:</strong> replace the two images above with your final, camera-ready figures (same filenames) when you update the paper.</p>
-        </div>
-      </div>
-    </div>
   </div>
 </section>
 
