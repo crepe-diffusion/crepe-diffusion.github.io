@@ -157,21 +157,6 @@
 
 
 
-
-<section class="hero teaser">
-  <div class="container is-max-desktop">
-    <div class="hero-body">
-      <img
-        src="./static/images/teaser1.png"
-        alt="CREPE teaser"
-        style="width: 100%; height: auto;"
-      />
-      <h2 class="subtitle has-text-centered">
-        <span class="dnerf">CREPE</span> swaps, not resamples: a Parallel-Tempering alternative to SMC for inference-time diffusion control—diverse samples after burn-in, online refinement, anytime stopping.</h2>
-    </div>
-  </div>
-</section>
-
 <!-- 
 <section class="hero is-light is-small">
   <div class="hero-body">
@@ -344,9 +329,9 @@
           </p>
         </div>
         <figure>
-          <img src="./static/images/fig2_smc_vs_crepe.png" alt="SMC vs CREPE overview figure" style="width: 100%; height: auto;">
+          <img src="./static/images/teaser1.png" alt="CREPE overview figure" style="width: 100%; height: auto;">
           <figcaption class="has-text-centered">
-            SMC propagates many particles in parallel along the denoising path; CREPE generates sequentially while running chains in parallel across diffusion times.
+            An illustration of the key idea of CREPE.
           </figcaption>
         </figure>
       </div>
@@ -355,32 +340,21 @@
 </section>
 
 
-<section class="section" id="Results">
+
+<!-- 
+<section class="hero teaser">
   <div class="container is-max-desktop">
-    <div class="columns is-centered">
-      <div class="column is-full-width">
-        <h2 class="title is-3">A quick visual: trajectories improve after burn-in</h2>
-        <div class="content has-text-justified">
-          <p>
-            Below is an example trajectory where CREPE refines samples over iterations under a prompted reward-tilt setting.
-            After burn-in, samples increasingly match the prompt while preserving diversity.
-          </p>
-        </div>
-        <figure>
-          <img src="./static/images/fig1_crepe_trajectory.png" alt="CREPE trajectory figure" style="width: 100%; height: auto;">
-          <figcaption class="has-text-centered">
-            Example CREPE trajectories for prompted reward-tilting (thinned across iterations).
-          </figcaption>
-        </figure>
-
-        <div class="content">
-          <p><strong>Tip:</strong> replace the two images above with your final, camera-ready figures (same filenames) when you update the paper.</p>
-        </div>
-      </div>
+    <div class="hero-body">
+      <img
+        src="./static/images/teaser1.png"
+        alt="CREPE teaser"
+        style="width: 100%; height: auto;"
+      />
+      <h2 class="subtitle has-text-centered">
+        <span class="dnerf">CREPE</span> swaps, not resamples: a Parallel-Tempering alternative to SMC for inference-time diffusion control—diverse samples after burn-in, online refinement, anytime stopping.</h2>
     </div>
   </div>
-</section>
-
+</section> -->
 
 <section class="section" id="BibTeX">
   <div class="container is-max-desktop content">
