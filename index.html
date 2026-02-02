@@ -334,20 +334,186 @@
 
 
 
-<!-- 
-<section class="hero teaser">
+
+<!-- Experiments -->
+<section class="section" id="Experiments">
   <div class="container is-max-desktop">
-    <div class="hero-body">
-      <img
-        src="./static/images/teaser1.png"
-        alt="CREPE teaser"
-        style="width: 100%; height: auto;"
-      />
-      <h2 class="subtitle has-text-centered">
-        <span class="dnerf">CREPE</span> swaps, not resamples: a Parallel-Tempering alternative to SMC for inference-time diffusion control—diverse samples after burn-in, online refinement, anytime stopping.</h2>
+    <div class="columns is-centered">
+      <div class="column is-full-width">
+        <h2 class="title is-3">Experiments</h2>
+        <div class="content has-text-justified">
+          <p>
+            We evaluate CREPE across multiple modalities and control objectives: (i) inference-time tempering for
+            Boltzmann sampling of molecules, (ii) debiasing classifier-free guidance (CFG) for image generation,
+            (iii) prompted reward-tilting for fine-grained alignment, (iv) reward-based model composition for long-horizon
+            maze trajectory stitching with online refinement, and (v) discrete diffusion control (CTMC / mask diffusion).
+          </p>
+        </div>
+
+        <!-- =============== Molecules =============== -->
+        <hr>
+        <h3 class="title is-4">Inference-time tempering for Boltzmann sampling (molecules)</h3>
+        <div class="content has-text-justified">
+          <p>
+            We temper pretrained diffusion models to sample from lower-temperature Boltzmann distributions for
+            alanine dipeptide, tetrapeptide, and hexapeptide. We report discrepancies between generated samples and
+            MD baselines using energy/distance histogram distances (e.g., TVD), sample distances (e.g., W2),
+            and 2D TICA-based distribution metrics (e.g., MMD).
+          </p>
+          <ul>
+            <li><b>Task:</b> high-temp model &rarr; low-temp target via tempering.</li>
+            <li><b>Metrics:</b> energy TVD, distance TVD, sample W2, TICA-MMD.</li>
+            <li><b>Takeaway:</b> CREPE is competitive with SMC baselines and maintains strong coverage / diversity after burn-in.</li>
+          </ul>
+        </div>
+
+        <!-- Optional figure placeholder:
+        <figure>
+          <img src="./static/images/tempering_tica.png" alt="Tempering results (TICA)" style="width: 100%; height: auto;">
+          <figcaption class="has-text-centered">Tempering results (see paper Table 1 / TICA visualizations).</figcaption>
+        </figure>
+        -->
+
+        <!-- =============== CFG Debiasing =============== -->
+        <hr>
+        <h3 class="title is-4">Debiasing classifier-free guidance (CFG) for ImageNet</h3>
+        <div class="content has-text-justified">
+          <p>
+            We apply CREPE to debias CFG and evaluate ImageReward (IR), CLIP score, and FID on ImageNet-64 and ImageNet-512.
+            CREPE typically needs a burn-in period, but scales well with more samples and maintains higher within-batch diversity.
+          </p>
+        </div>
+
+        <div class="box">
+          <p class="title is-5" style="margin-bottom: 0.5rem;">Quantitative results (Table 2)</p>
+          <div class="table-container">
+            <table class="table is-striped is-fullwidth is-size-7">
+              <thead>
+                <tr>
+                  <th>Method</th>
+                  <th>#Samples</th>
+                  <th>IR (↑)</th>
+                  <th>CLIP (↑)</th>
+                  <th>FID (↓)</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td>FKC (SMC)</td><td>8</td><td>-0.29</td><td>24.17</td><td>1.85</td></tr>
+                <tr><td>FKC (SMC)</td><td>32</td><td>-0.14</td><td>23.98</td><td>1.84</td></tr>
+                <tr><td>FKC (SMC)</td><td>128</td><td>-0.03</td><td>24.04</td><td>1.89</td></tr>
+                <tr><td>FKC (SMC)</td><td>512</td><td>-0.08</td><td>24.31</td><td>1.96</td></tr>
+                <tr><td><b>CREPE</b></td><td>8</td><td>-0.30</td><td>24.10</td><td>1.92</td></tr>
+                <tr><td><b>CREPE</b></td><td>32</td><td>-0.21</td><td>24.21</td><td>1.88</td></tr>
+                <tr><td><b>CREPE</b></td><td>128</td><td>-0.09</td><td>24.37</td><td>1.86</td></tr>
+                <tr><td><b>CREPE</b></td><td>512</td><td><b>0.09</b></td><td>24.28</td><td><b>1.79</b></td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p class="is-size-7 has-text-grey">
+            Notes: IR/CLIP are conditioned on the class label. FID is computed over aggregated samples.
+          </p>
+        </div>
+
+        <!-- Optional samples placeholder:
+        <figure>
+          <img src="./static/images/cfg_debiasing_samples.png" alt="CFG debiasing samples" style="width: 100%; height: auto;">
+          <figcaption class="has-text-centered">CFG debiasing samples (see paper Figures 10–13).</figcaption>
+        </figure>
+        -->
+
+        <!-- =============== Reward Tilting =============== -->
+        <hr>
+        <h3 class="title is-4">Prompted reward-tilting for image generation</h3>
+        <div class="content has-text-justified">
+          <p>
+            We combine CFG debiasing with <em>prompted reward-tilting</em> using ImageReward to steer generations toward
+            more detailed instructions. We track reward alignment (IR) and semantic alignment (CLIP) along PT iterations,
+            observing improved prompt satisfaction after burn-in while maintaining diversity.
+          </p>
+          <ul>
+            <li><b>Models:</b> ImageNet-64 (pixel-space) and ImageNet-512 (latent diffusion).</li>
+            <li><b>Signals:</b> IR / CLIP vs. PT iterations; qualitative trajectories across iterations.</li>
+          </ul>
+        </div>
+
+        <!-- Optional plot placeholder:
+        <figure>
+          <img src="./static/images/reward_tilting_curves.png" alt="Reward-tilting curves" style="width: 100%; height: auto;">
+          <figcaption class="has-text-centered">Prompted reward-tilting curves (see paper Figure 5).</figcaption>
+        </figure>
+        -->
+
+        <!-- =============== Trajectory Stitching / Composition =============== -->
+        <hr>
+        <h3 class="title is-4">Model composition for maze navigation (trajectory stitching)</h3>
+        <div class="content has-text-justified">
+          <p>
+            We stitch short trajectory segments in a large 2D maze using an unconditional diffusion model and a reward-based
+            composition objective. CREPE enables coherent long-horizon planning via swap-based communication across diffusion times,
+            and supports <b>online refinement</b> by adding new constraints during sampling.
+          </p>
+          <ul>
+            <li><b>Dataset:</b> pointmaze-giant-stitch-v0.</li>
+            <li><b>Objective:</b> reward-based constraints on start/goal and segment connectivity.</li>
+            <li><b>Online refinement:</b> add an intermediate waypoint reward mid-run and adapt quickly.</li>
+          </ul>
+        </div>
+
+        <div class="box">
+          <p class="title is-5" style="margin-bottom: 0.5rem;">Success rates (Table 3)</p>
+          <div class="table-container">
+            <table class="table is-striped is-fullwidth is-size-7">
+              <thead>
+                <tr>
+                  <th>Method</th>
+                  <th>Success rate (%)</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td>CompDiffuser (reference)</td><td>68</td></tr>
+                <tr><td><b>CREPE</b> (iteration 0–50k)</td><td>8.5</td></tr>
+                <tr><td><b>CREPE</b> (iteration 50–100k)</td><td>59.7</td></tr>
+                <tr><td><b>CREPE</b> (iteration 100–150k)</td><td><b>84.6</b></td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p class="is-size-7 has-text-grey">
+            CREPE improves markedly after burn-in; online refinement can incorporate new waypoint constraints mid-run.
+          </p>
+        </div>
+
+        <!-- Optional figure placeholders:
+        <figure>
+          <img src="./static/images/maze_online_refinement.png" alt="Online refinement" style="width: 100%; height: auto;">
+          <figcaption class="has-text-centered">Trajectory stitching with online refinement (see paper Figure 6 / Figure 15).</figcaption>
+        </figure>
+        -->
+
+        <!-- =============== CTMC =============== -->
+        <hr>
+        <h3 class="title is-4">CREPE on discrete diffusion (CTMC / mask diffusion on MNIST)</h3>
+        <div class="content has-text-justified">
+          <p>
+            We extend CREPE to discrete diffusion modeled as a continuous-time Markov chain (CTMC), and apply it to
+            debias CFG for mask diffusion on MNIST. Qualitatively, CREPE produces plausible samples and shows slightly
+            higher diversity compared to SMC baselines under comparable compute budgets.
+          </p>
+        </div>
+
+        <!-- Optional samples placeholder:
+        <figure>
+          <img src="./static/images/ctmc_mnist.png" alt="CTMC MNIST samples" style="width: 100%; height: auto;">
+          <figcaption class="has-text-centered">CTMC / mask diffusion CFG debiasing on MNIST (see paper Figure 8).</figcaption>
+        </figure>
+        -->
+
+      </div>
     </div>
   </div>
-</section> -->
+</section>
+<!-- /Experiments -->
+
+
 
 <section class="section" id="BibTeX">
   <div class="container is-max-desktop content">
