@@ -245,8 +245,8 @@
     </div> -->
     <!--/ Concurrent Work. -->
 
-  </div>
-</section>
+  <!-- </div>
+</section> -->
 
 
 
@@ -258,28 +258,6 @@
         <div class="content has-text-justified">
           <p>Inference-time control of diffusion models aims to steer model outputs to satisfy new constraints without retraining. CREPE is a flexible approach based on replica exchange (parallel tempering): it enables principled control of diffusion models, maintains high diversity of generated samples, and supports online refinement or early termination.</p>
         </div>
-      </div>
-    </div>
-    <div class="columns is-centered">
-      <div class="column is-full-width">
-        <h2 class="title is-3">Key idea: exchange across diffusion times</h2>
-        <div class="content has-text-justified">
-          <p>
-            CREPE runs multiple chains at different diffusion steps (noise levels). Each chain performs local updates,
-            and we periodically propose <em>swaps</em> between neighbouring noise levels with an acceptance rule.
-            This enables principled communication between easy-to-mix (high-noise) and high-fidelity (low-noise) states.
-          </p>
-        </div>
-        <video style="width: 100%; height: auto; display: block;"
-        autoplay loop muted playsinline controls preload="metadata">
-          <source src="/static/videos/crepe_iterations_.mp4" type="video/mp4">
-        </video>
-        <figure>
-          <img src="./static/images/teaser1.png" alt="CREPE overview figure" style="width: 100%; height: auto;">
-          <figcaption class="has-text-centered">
-            An illustration of the key idea of CREPE.
-          </figcaption>
-        </figure>
       </div>
     </div>
     <div class="columns is-centered">
@@ -331,6 +309,32 @@
 </section>
 
 
+<section class="section" id="KeyIdea">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered">
+      <div class="column is-full-width">
+        <h2 class="title is-3">Key idea: exchange across diffusion times</h2>
+        <div class="content has-text-justified">
+          <p>
+            CREPE runs multiple chains at different diffusion steps (noise levels). Each chain performs local updates,
+            and we periodically propose <em>swaps</em> between neighbouring noise levels with an acceptance rule.
+            This enables principled communication between easy-to-mix (high-noise) and high-fidelity (low-noise) states.
+          </p>
+        </div>
+        <video style="width: 100%; height: auto; display: block;"
+        autoplay loop muted playsinline controls preload="metadata">
+          <source src="/static/videos/crepe_iterations_.mp4" type="video/mp4">
+        </video>
+        <figure>
+          <img src="./static/images/teaser1.png" alt="CREPE overview figure" style="width: 100%; height: auto;">
+          <figcaption class="has-text-centered">
+            An illustration of the key idea of CREPE.
+          </figcaption>
+        </figure>
+      </div>
+    </div>
+  </div>
+</section>
 
 
 
@@ -339,7 +343,7 @@
 <section class="section" id="BibTeX">
   <div class="container is-max-desktop content">
     <h2 class="title">BibTeX</h2>
-    <pre><code>@article{he2026crepe,
+    <pre><code>@article{he2025crepe,
       title={CREPE: Controlling Diffusion with Replica Exchange},
       author={He, Jiajun and Jeha, Paul and Potaptchik, Peter and Zhang, Leo and Hern{\'a}ndez-Lobato, Jos{\'e} Miguel and Du, Yuanqi and Syed, Saifuddin and Vargas, Francisco},
       journal={ICLR},
