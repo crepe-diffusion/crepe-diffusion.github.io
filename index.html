@@ -340,10 +340,24 @@
 
 <section class="section" id="Iterations">
   <div class="container is-max-desktop">
+    <h2 class="title is-3">Experiments</h2>
+    
     <div class="columns is-centered">
       <div class="column is-full-width">
-        <h2 class="title is-3">Model Product (stitching) for Maze Navigation</h2>
+        <h3 class="title is-4">Inference Time Tempering to sample from Boltzmann distribution of small molecules</h3>
         <div class="content has-text-justified">
+        </div>
+        <figure style="margin-top: 1rem; margin-bottom: 2rem;">
+          <img src="./static/images/tempering.png" alt="Inference time scaling of Boltzmann sampling" style="width: 100%; height: auto;">
+        </figure>
+      </div>
+    </div>
+    
+    <div class="columns is-centered">
+      <div class="column is-full-width">
+        <h3 class="title is-4">Model Product (stitching) for Maze Navigation</h3>
+        <div class="content has-text-justified">
+          <p>We train a diffusion model on short trajectory in a maze. We then use CREPE to control stitching the model to a longer trajectory for more complex navigation.</p>
         </div>
         <!-- Interactive Iteration Panel -->
         <div class="iteration-panel" style="margin-top: 2rem; margin-bottom: 2rem;">
