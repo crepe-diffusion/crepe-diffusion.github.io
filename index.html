@@ -346,9 +346,21 @@
       <div class="column is-full-width">
         <h3 class="title is-4">Inference Time Tempering to sample from Boltzmann distribution of small molecules</h3>
         <div class="content has-text-justified">
+          <p>We train a diffusion model on samples from a Boltzmann distribution of small molecules at higher temperature. We then use CREPE to temper the model to sample from a different Boltzmann distribution at lower temperature.</p>
         </div>
         <figure style="margin-top: 1rem; margin-bottom: 2rem;">
           <img src="./static/images/tempering.png" alt="Inference time scaling of Boltzmann sampling" style="width: 100%; height: auto;">
+        </figure>
+      </div>
+    </div>
+    
+    <div class="columns is-centered">
+      <div class="column is-full-width">
+        <h3 class="title is-4">Debiasing Classifier Free Guidance</h3>
+        <div class="content has-text-justified">
+        </div>
+        <figure style="margin-top: 1rem; margin-bottom: 2rem;">
+          <img src="./static/images/cfg.png" alt="Debiasing Classifier Free Guidance" style="width: 100%; height: auto;">
         </figure>
       </div>
     </div>
