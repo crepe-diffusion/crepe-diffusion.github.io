@@ -347,18 +347,6 @@
         </div>
         <!-- Interactive Iteration Panel -->
         <div class="iteration-panel" style="margin-top: 2rem; margin-bottom: 2rem;">
-          <div class="slider-container" style="margin-bottom: 2rem;">
-            <label class="label" style="margin-bottom: 0.5rem;">Iteration: <span id="iteration-value">0</span></label>
-            <input type="range" id="iteration-slider" class="slider is-fullwidth is-large" 
-                   min="0" max="149" step="1" value="0" 
-                   style="width: 100%;"
-                   oninput="console.log('Slider oninput fired, value:', this.value); if(window.updateIterationImages) { window.updateIterationImages(parseInt(this.value)); } else { console.error('updateIterationImages function not found!'); }"
-                   onchange="console.log('Slider onchange fired, value:', this.value); if(window.updateIterationImages) { window.updateIterationImages(parseInt(this.value)); }">
-            <div style="display: flex; justify-content: space-between; font-size: 0.875rem; color: #666; margin-top: 0.25rem;">
-              <span>0</span>
-              <span>149,000</span>
-            </div>
-          </div>
           <div class="columns is-multiline" id="iteration-images-container" style="margin-top: 1rem;">
             <div class="column is-one-fifth" style="padding: 0.5rem;">
               <figure class="image" style="margin: 0;">
@@ -395,6 +383,14 @@
               </figure>
               <p class="has-text-centered" style="margin-top: 0.5rem; font-size: 0.875rem;">Task 4</p>
             </div>
+          </div>
+          <div class="slider-container" style="margin-top: 2rem;">
+            <label class="label" style="margin-bottom: 0.5rem;">Iteration: <span id="iteration-value">0</span></label>
+            <input type="range" id="iteration-slider" class="slider is-fullwidth is-large" 
+                   min="0" max="149" step="1" value="0" 
+                   style="width: 100%;"
+                   oninput="console.log('Slider oninput fired, value:', this.value); if(window.updateIterationImages) { window.updateIterationImages(parseInt(this.value)); } else { console.error('updateIterationImages function not found!'); }"
+                   onchange="console.log('Slider onchange fired, value:', this.value); if(window.updateIterationImages) { window.updateIterationImages(parseInt(this.value)); }">
           </div>
         </div>
       </div>
