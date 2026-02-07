@@ -19,6 +19,15 @@ function setInterpolationImage(i) {
   $('#interpolation-image-wrapper').empty().append(image);
 }
 
+// Function to update only the iteration value display (during dragging)
+window.updateIterationValue = function(sliderValue) {
+  var iteration = sliderValue * 1000;
+  var iterationValueEl = document.getElementById('iteration-value');
+  if (iterationValueEl) {
+    iterationValueEl.textContent = iteration.toLocaleString();
+  }
+};
+
 // Iteration panel functions - make it globally accessible
 window.updateIterationImages = function(sliderValue) {
   console.log('updateIterationImages called with value:', sliderValue);
@@ -144,23 +153,22 @@ $(document).ready(function() {
     setInterpolationImage(0);
     $('#interpolation-slider').prop('max', NUM_INTERP_FRAMES - 1);
 
-    // Initialize iteration slider BEFORE bulmaSlider.attach() to avoid conflicts
+    // Initialize iteration slider - only update images on change (when dragging stops)
     // Use jQuery with event delegation that works even after bulmaSlider modifies the DOM
-    $(document).on('input change', '#iteration-slider', function(event) {
+    $(document).on('input', '#iteration-slider', function(event) {
+      // Only update the iteration number display during dragging, not images
       var value = parseInt($(this).val());
-      console.log('Iteration slider changed (jQuery):', value);
-      if (window.updateIterationImages) {
-        window.updateIterationImages(value);
+      if (window.updateIterationValue) {
+        window.updateIterationValue(value);
       }
     });
     
-    // Also handle mouse events for real-time updates while dragging
-    $(document).on('mousemove', '#iteration-slider', function(event) {
-      if (event.buttons === 1) { // Left mouse button is pressed
-        var value = parseInt($(this).val());
-        if (window.updateIterationImages) {
-          window.updateIterationImages(value);
-        }
+    $(document).on('change', '#iteration-slider', function(event) {
+      // Update images only when dragging stops
+      var value = parseInt($(this).val());
+      console.log('Iteration slider changed (stopped dragging):', value);
+      if (window.updateIterationImages) {
+        window.updateIterationImages(value);
       }
     });
     

@@ -389,8 +389,8 @@
             <input type="range" id="iteration-slider" class="slider is-fullwidth is-large" 
                    min="0" max="149" step="1" value="0" 
                    style="width: 100%;"
-                   oninput="console.log('Slider oninput fired, value:', this.value); if(window.updateIterationImages) { window.updateIterationImages(parseInt(this.value)); } else { console.error('updateIterationImages function not found!'); }"
-                   onchange="console.log('Slider onchange fired, value:', this.value); if(window.updateIterationImages) { window.updateIterationImages(parseInt(this.value)); }">
+                   oninput="if(window.updateIterationValue) { window.updateIterationValue(parseInt(this.value)); }"
+                   onchange="if(window.updateIterationImages) { window.updateIterationImages(parseInt(this.value)); }">
           </div>
         </div>
       </div>
