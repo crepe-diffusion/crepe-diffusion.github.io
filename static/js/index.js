@@ -53,6 +53,83 @@ window.updateIterationValue = function(sliderValue) {
   }
 };
 
+// IR Slider functions - similar to iteration slider but for IR images
+window.isIRSliderDragging = false;
+
+window.setIRSliderDragging = function(isDragging) {
+  window.isIRSliderDragging = isDragging;
+  console.log('IR Dragging state set to:', isDragging);
+};
+
+window.handleIRSliderRelease = function(sliderElement) {
+  if (window.setIRSliderDragging) {
+    window.setIRSliderDragging(false);
+  }
+  setTimeout(function() {
+    var value = parseInt(sliderElement.value);
+    console.log('IR Slider released - updating image with value:', value);
+    if (window.updateIRIterationImage) {
+      window.updateIRIterationImage(value);
+    }
+  }, 10);
+};
+
+window.updateIRIterationValue = function(sliderValue) {
+  var irIterationValueEl = document.getElementById('ir-iteration-value');
+  if (irIterationValueEl) {
+    irIterationValueEl.textContent = sliderValue;
+  }
+};
+
+window.updateIRIterationImage = function(sliderValue) {
+  if (window.isIRSliderDragging === true) {
+    console.log('BLOCKED IR image update - slider is being dragged, value:', sliderValue);
+    return;
+  }
+  
+  console.log('updateIRIterationImage called with value:', sliderValue);
+  
+  var imagePath = './static/images/vis_IR/IR_CLIP_scores_all_' + sliderValue + '.png';
+  var imgElement = document.getElementById('ir-iteration-img');
+  
+  if (imgElement) {
+    var oldSrc = imgElement.src;
+    console.log('IR - Old src:', oldSrc);
+    console.log('IR - New path:', imagePath);
+    
+    var newSrc = imagePath + '?v=' + Date.now();
+    if (imgElement.src !== newSrc) {
+      imgElement.removeAttribute('src');
+      imgElement.setAttribute('src', newSrc);
+      console.log('IR - Set src to:', imgElement.src);
+    } else {
+      imgElement.style.display = 'none';
+      imgElement.offsetHeight;
+      imgElement.style.display = '';
+      imgElement.src = newSrc;
+    }
+    
+    imgElement.onerror = function() {
+      console.error('Failed to load IR image:', this.src);
+    };
+    
+    imgElement.onload = function() {
+      console.log('Successfully loaded IR image');
+    };
+    
+    imgElement.ondragstart = function() { return false; };
+    imgElement.oncontextmenu = function() { return false; };
+  } else {
+    console.error('IR image element not found');
+  }
+  
+  // Update iteration display
+  var irIterationValueEl = document.getElementById('ir-iteration-value');
+  if (irIterationValueEl) {
+    irIterationValueEl.textContent = sliderValue;
+  }
+};
+
 // Iteration panel functions - make it globally accessible
 window.updateIterationImages = function(sliderValue) {
   // Don't update images if currently dragging - this is a critical check
@@ -211,6 +288,34 @@ $(document).ready(function() {
     // Set initial images
     if (window.updateIterationImages) {
       window.updateIterationImages(0);
+    }
+
+    // Initialize IR iteration slider - only update images on mouse release
+    $(document).on('input', '#ir-iteration-slider', function(event) {
+      // Only update the iteration number display during dragging, not images
+      var value = parseInt($(this).val());
+      if (window.updateIRIterationValue) {
+        window.updateIRIterationValue(value);
+      }
+    });
+    
+    // Track mouse down/up to prevent image updates during dragging
+    $(document).on('mousedown', '#ir-iteration-slider', function(event) {
+      if (window.setIRSliderDragging) {
+        window.setIRSliderDragging(true);
+      }
+    });
+    
+    $(document).on('mouseup touchend', '#ir-iteration-slider', function(event) {
+      // Use the same handler function for consistency
+      if (window.handleIRSliderRelease) {
+        window.handleIRSliderRelease(this);
+      }
+    });
+    
+    // Set initial IR image
+    if (window.updateIRIterationImage) {
+      window.updateIRIterationImage(0);
     }
 
     bulmaSlider.attach();
