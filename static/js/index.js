@@ -25,23 +25,34 @@ function updateIterationImages(sliderValue) {
   var iteration = sliderValue * 1000;
   var iterationStr = String(iteration).padStart(6, '0');
   
-  // Calculate snapshot number (iteration / 1000 * 5, but let's use the pattern from filenames)
-  // From the files, snapshot number = iteration / 1000 * 5
+  // Calculate snapshot number (iteration / 1000 * 5)
+  // From the files: iteration_000000_snapshot_0000, iteration_001000_snapshot_0005, etc.
   var snapshotNum = Math.floor(iteration / 1000) * 5;
   var snapshotStr = String(snapshotNum).padStart(4, '0');
   
   // Update iteration display
-  $('#iteration-value').text(iteration.toLocaleString());
+  var iterationValueEl = document.getElementById('iteration-value');
+  if (iterationValueEl) {
+    iterationValueEl.textContent = iteration.toLocaleString();
+  }
   
   // Update all 5 task images
   for (var task = 0; task < 5; task++) {
     var imagePath = './static/images/visualizations_task_' + task + '/iteration_' + iterationStr + '_snapshot_' + snapshotStr + '.png';
     var imgElement = document.getElementById('task-' + task + '-img');
     if (imgElement) {
+      console.log('Updating task ' + task + ' to:', imagePath);
+      // Update image source
       imgElement.src = imagePath;
+      // Also handle errors
+      imgElement.onerror = function() {
+        console.error('Failed to load image:', this.src);
+      };
       // Prevent drag and right-click
       imgElement.ondragstart = function() { return false; };
       imgElement.oncontextmenu = function() { return false; };
+    } else {
+      console.warn('Image element not found for task ' + task);
     }
   }
 }
@@ -103,10 +114,36 @@ $(document).ready(function() {
     bulmaSlider.attach();
 
     // Initialize iteration slider
-    $('#iteration-slider').on('input', function(event) {
-      updateIterationImages(parseInt(this.value));
-    });
-    // Set initial images
-    updateIterationImages(0);
+    var iterationSlider = document.getElementById('iteration-slider');
+    if (iterationSlider) {
+      // Use native event listeners - attach multiple events to ensure it works
+      function handleSliderChange() {
+        var value = parseInt(iterationSlider.value);
+        console.log('Slider value:', value);
+        updateIterationImages(value);
+      }
+      
+      iterationSlider.addEventListener('input', handleSliderChange);
+      iterationSlider.addEventListener('change', handleSliderChange);
+      
+      // Also handle mouse events for better responsiveness
+      var isDragging = false;
+      iterationSlider.addEventListener('mousedown', function() {
+        isDragging = true;
+      });
+      iterationSlider.addEventListener('mouseup', function() {
+        isDragging = false;
+      });
+      iterationSlider.addEventListener('mousemove', function() {
+        if (isDragging) {
+          handleSliderChange();
+        }
+      });
+      
+      // Set initial images
+      updateIterationImages(0);
+    } else {
+      console.error('Iteration slider not found!');
+    }
 
 })
