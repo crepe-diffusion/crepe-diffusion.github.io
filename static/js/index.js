@@ -19,8 +19,8 @@ function setInterpolationImage(i) {
   $('#interpolation-image-wrapper').empty().append(image);
 }
 
-// Iteration panel functions
-function updateIterationImages(sliderValue) {
+// Iteration panel functions - make it globally accessible
+window.updateIterationImages = function(sliderValue) {
   // Convert slider value (0-149) to iteration number (0, 1000, 2000, ..., 149000)
   var iteration = sliderValue * 1000;
   var iterationStr = String(iteration).padStart(6, '0');
@@ -55,7 +55,7 @@ function updateIterationImages(sliderValue) {
       console.warn('Image element not found for task ' + task);
     }
   }
-}
+};
 
 
 $(document).ready(function() {
@@ -111,39 +111,31 @@ $(document).ready(function() {
     setInterpolationImage(0);
     $('#interpolation-slider').prop('max', NUM_INTERP_FRAMES - 1);
 
-    bulmaSlider.attach();
-
-    // Initialize iteration slider
-    var iterationSlider = document.getElementById('iteration-slider');
-    if (iterationSlider) {
-      // Use native event listeners - attach multiple events to ensure it works
-      function handleSliderChange() {
-        var value = parseInt(iterationSlider.value);
-        console.log('Slider value:', value);
-        updateIterationImages(value);
+    // Initialize iteration slider BEFORE bulmaSlider.attach() to avoid conflicts
+    // Use jQuery with event delegation that works even after bulmaSlider modifies the DOM
+    $(document).on('input change', '#iteration-slider', function(event) {
+      var value = parseInt($(this).val());
+      console.log('Iteration slider changed (jQuery):', value);
+      if (window.updateIterationImages) {
+        window.updateIterationImages(value);
       }
-      
-      iterationSlider.addEventListener('input', handleSliderChange);
-      iterationSlider.addEventListener('change', handleSliderChange);
-      
-      // Also handle mouse events for better responsiveness
-      var isDragging = false;
-      iterationSlider.addEventListener('mousedown', function() {
-        isDragging = true;
-      });
-      iterationSlider.addEventListener('mouseup', function() {
-        isDragging = false;
-      });
-      iterationSlider.addEventListener('mousemove', function() {
-        if (isDragging) {
-          handleSliderChange();
+    });
+    
+    // Also handle mouse events for real-time updates while dragging
+    $(document).on('mousemove', '#iteration-slider', function(event) {
+      if (event.buttons === 1) { // Left mouse button is pressed
+        var value = parseInt($(this).val());
+        if (window.updateIterationImages) {
+          window.updateIterationImages(value);
         }
-      });
-      
-      // Set initial images
-      updateIterationImages(0);
-    } else {
-      console.error('Iteration slider not found!');
+      }
+    });
+    
+    // Set initial images
+    if (window.updateIterationImages) {
+      window.updateIterationImages(0);
     }
+
+    bulmaSlider.attach();
 
 })
