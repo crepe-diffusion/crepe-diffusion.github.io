@@ -25,6 +25,23 @@ window.isSliderDragging = false;
 // Function to set dragging state
 window.setSliderDragging = function(isDragging) {
   window.isSliderDragging = isDragging;
+  console.log('Dragging state set to:', isDragging);
+};
+
+// Handle slider release - update images only after confirming drag has stopped
+window.handleSliderRelease = function(sliderElement) {
+  // Set dragging to false first
+  if (window.setSliderDragging) {
+    window.setSliderDragging(false);
+  }
+  // Use a small timeout to ensure dragging flag is cleared and no other events interfere
+  setTimeout(function() {
+    var value = parseInt(sliderElement.value);
+    console.log('Slider released - updating images with value:', value);
+    if (window.updateIterationImages) {
+      window.updateIterationImages(value);
+    }
+  }, 10);
 };
 
 // Function to update only the iteration value display (during dragging)
@@ -38,13 +55,13 @@ window.updateIterationValue = function(sliderValue) {
 
 // Iteration panel functions - make it globally accessible
 window.updateIterationImages = function(sliderValue) {
-  // Don't update images if currently dragging
-  if (window.isSliderDragging) {
-    console.log('Skipping image update - slider is being dragged');
+  // Don't update images if currently dragging - this is a critical check
+  if (window.isSliderDragging === true) {
+    console.log('BLOCKED image update - slider is being dragged, value:', sliderValue);
     return;
   }
   
-  console.log('updateIterationImages called with value:', sliderValue);
+  console.log('updateIterationImages called with value:', sliderValue, 'isDragging:', window.isSliderDragging);
   
   // Convert slider value (0-149) to iteration number (0, 1000, 2000, ..., 149000)
   var iteration = sliderValue * 1000;
@@ -185,14 +202,9 @@ $(document).ready(function() {
     });
     
     $(document).on('mouseup touchend', '#iteration-slider', function(event) {
-      // Update images only when mouse is released
-      if (window.setSliderDragging) {
-        window.setSliderDragging(false);
-      }
-      var value = parseInt($(this).val());
-      console.log('Mouse released - updating images with value:', value);
-      if (window.updateIterationImages) {
-        window.updateIterationImages(value);
+      // Use the same handler function for consistency
+      if (window.handleSliderRelease) {
+        window.handleSliderRelease(this);
       }
     });
     

@@ -391,8 +391,10 @@
                    style="width: 100%;"
                    oninput="if(window.updateIterationValue) { window.updateIterationValue(parseInt(this.value)); }"
                    onmousedown="if(window.setSliderDragging) { window.setSliderDragging(true); }"
-                   onmouseup="if(window.setSliderDragging) { window.setSliderDragging(false); if(window.updateIterationImages) { window.updateIterationImages(parseInt(this.value)); } }"
-                   ontouchend="if(window.setSliderDragging) { window.setSliderDragging(false); if(window.updateIterationImages) { window.updateIterationImages(parseInt(this.value)); } }">
+                   onmouseup="if(window.handleSliderRelease) { window.handleSliderRelease(this); }"
+                   ontouchend="if(window.handleSliderRelease) { window.handleSliderRelease(this); }"
+                   onchange="return false;"
+                   onmouseleave="if(window.isSliderDragging && window.handleSliderRelease) { window.handleSliderRelease(this); }">
           </div>
         </div>
       </div>
