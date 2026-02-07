@@ -155,3 +155,45 @@ body {
 #interpolation-image-wrapper img {
   border-radius: 5px;
 }
+
+.iteration-panel {
+  background: #fafafa;
+  border-radius: 10px;
+  padding: 1.5rem;
+  border: 1px solid #e0e0e0;
+}
+
+.iteration-panel .slider-container {
+  padding: 0 0.5rem;
+}
+
+.iteration-panel #iteration-slider {
+  cursor: pointer;
+}
+
+.iteration-panel #iteration-images-container {
+  margin-top: 1.5rem;
+}
+
+.iteration-panel #iteration-images-container img {
+  transition: opacity 0.2s ease-in-out;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.iteration-panel #iteration-images-container img:hover {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+@media screen and (max-width: 768px) {
+  .iteration-panel #iteration-images-container .column {
+    flex: 0 0 50%;
+    max-width: 50%;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .iteration-panel #iteration-images-container .column {
+    flex: 0 0 100%;
+    max-width: 100%;
+  }
+}

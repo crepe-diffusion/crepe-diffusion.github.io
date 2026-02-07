@@ -321,10 +321,56 @@
             This enables principled communication between easy-to-mix (high-noise) and high-fidelity (low-noise) states.
           </p>
         </div>
-        <video style="width: 100%; height: auto; display: block;"
-        autoplay loop muted playsinline controls preload="metadata">
-          <source src="/static/videos/crepe_iterations_.mp4" type="video/mp4">
-        </video>
+        <!-- Interactive Iteration Panel -->
+        <div class="iteration-panel" style="margin-top: 2rem; margin-bottom: 2rem;">
+          <div class="slider-container" style="margin-bottom: 2rem;">
+            <label class="label" style="margin-bottom: 0.5rem;">Iteration: <span id="iteration-value">0</span></label>
+            <input type="range" id="iteration-slider" class="slider is-fullwidth is-large" 
+                   min="0" max="149" step="1" value="0" 
+                   style="width: 100%;">
+            <div style="display: flex; justify-content: space-between; font-size: 0.875rem; color: #666; margin-top: 0.25rem;">
+              <span>0</span>
+              <span>149,000</span>
+            </div>
+          </div>
+          <div class="columns is-multiline" id="iteration-images-container" style="margin-top: 1rem;">
+            <div class="column is-one-fifth" style="padding: 0.5rem;">
+              <figure class="image" style="margin: 0;">
+                <img id="task-0-img" src="./static/images/visualizations_task_0/iteration_000000_snapshot_0000.png" 
+                     alt="Task 0" style="width: 100%; height: auto; border-radius: 5px;">
+              </figure>
+              <p class="has-text-centered" style="margin-top: 0.5rem; font-size: 0.875rem;">Task 0</p>
+            </div>
+            <div class="column is-one-fifth" style="padding: 0.5rem;">
+              <figure class="image" style="margin: 0;">
+                <img id="task-1-img" src="./static/images/visualizations_task_1/iteration_000000_snapshot_0000.png" 
+                     alt="Task 1" style="width: 100%; height: auto; border-radius: 5px;">
+              </figure>
+              <p class="has-text-centered" style="margin-top: 0.5rem; font-size: 0.875rem;">Task 1</p>
+            </div>
+            <div class="column is-one-fifth" style="padding: 0.5rem;">
+              <figure class="image" style="margin: 0;">
+                <img id="task-2-img" src="./static/images/visualizations_task_2/iteration_000000_snapshot_0000.png" 
+                     alt="Task 2" style="width: 100%; height: auto; border-radius: 5px;">
+              </figure>
+              <p class="has-text-centered" style="margin-top: 0.5rem; font-size: 0.875rem;">Task 2</p>
+            </div>
+            <div class="column is-one-fifth" style="padding: 0.5rem;">
+              <figure class="image" style="margin: 0;">
+                <img id="task-3-img" src="./static/images/visualizations_task_3/iteration_000000_snapshot_0000.png" 
+                     alt="Task 3" style="width: 100%; height: auto; border-radius: 5px;">
+              </figure>
+              <p class="has-text-centered" style="margin-top: 0.5rem; font-size: 0.875rem;">Task 3</p>
+            </div>
+            <div class="column is-one-fifth" style="padding: 0.5rem;">
+              <figure class="image" style="margin: 0;">
+                <img id="task-4-img" src="./static/images/visualizations_task_4/iteration_000000_snapshot_0000.png" 
+                     alt="Task 4" style="width: 100%; height: auto; border-radius: 5px;">
+              </figure>
+              <p class="has-text-centered" style="margin-top: 0.5rem; font-size: 0.875rem;">Task 4</p>
+            </div>
+          </div>
+        </div>
         <figure>
           <img src="./static/images/teaser1.png" alt="CREPE overview figure" style="width: 100%; height: auto;">
           <figcaption class="has-text-centered">

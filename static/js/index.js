@@ -19,6 +19,33 @@ function setInterpolationImage(i) {
   $('#interpolation-image-wrapper').empty().append(image);
 }
 
+// Iteration panel functions
+function updateIterationImages(sliderValue) {
+  // Convert slider value (0-149) to iteration number (0, 1000, 2000, ..., 149000)
+  var iteration = sliderValue * 1000;
+  var iterationStr = String(iteration).padStart(6, '0');
+  
+  // Calculate snapshot number (iteration / 1000 * 5, but let's use the pattern from filenames)
+  // From the files, snapshot number = iteration / 1000 * 5
+  var snapshotNum = Math.floor(iteration / 1000) * 5;
+  var snapshotStr = String(snapshotNum).padStart(4, '0');
+  
+  // Update iteration display
+  $('#iteration-value').text(iteration.toLocaleString());
+  
+  // Update all 5 task images
+  for (var task = 0; task < 5; task++) {
+    var imagePath = './static/images/visualizations_task_' + task + '/iteration_' + iterationStr + '_snapshot_' + snapshotStr + '.png';
+    var imgElement = document.getElementById('task-' + task + '-img');
+    if (imgElement) {
+      imgElement.src = imagePath;
+      // Prevent drag and right-click
+      imgElement.ondragstart = function() { return false; };
+      imgElement.oncontextmenu = function() { return false; };
+    }
+  }
+}
+
 
 $(document).ready(function() {
     // Check for click events on the navbar burger icon
@@ -74,5 +101,12 @@ $(document).ready(function() {
     $('#interpolation-slider').prop('max', NUM_INTERP_FRAMES - 1);
 
     bulmaSlider.attach();
+
+    // Initialize iteration slider
+    $('#iteration-slider').on('input', function(event) {
+      updateIterationImages(parseInt(this.value));
+    });
+    // Set initial images
+    updateIterationImages(0);
 
 })
