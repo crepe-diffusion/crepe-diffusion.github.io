@@ -390,7 +390,9 @@
                    min="0" max="149" step="1" value="0" 
                    style="width: 100%;"
                    oninput="if(window.updateIterationValue) { window.updateIterationValue(parseInt(this.value)); }"
-                   onchange="if(window.updateIterationImages) { window.updateIterationImages(parseInt(this.value)); }">
+                   onmousedown="if(window.setSliderDragging) { window.setSliderDragging(true); }"
+                   onmouseup="if(window.setSliderDragging) { window.setSliderDragging(false); if(window.updateIterationImages) { window.updateIterationImages(parseInt(this.value)); } }"
+                   ontouchend="if(window.setSliderDragging) { window.setSliderDragging(false); if(window.updateIterationImages) { window.updateIterationImages(parseInt(this.value)); } }">
           </div>
         </div>
       </div>

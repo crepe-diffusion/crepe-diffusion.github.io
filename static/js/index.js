@@ -19,6 +19,14 @@ function setInterpolationImage(i) {
   $('#interpolation-image-wrapper').empty().append(image);
 }
 
+// Track if slider is being dragged
+window.isSliderDragging = false;
+
+// Function to set dragging state
+window.setSliderDragging = function(isDragging) {
+  window.isSliderDragging = isDragging;
+};
+
 // Function to update only the iteration value display (during dragging)
 window.updateIterationValue = function(sliderValue) {
   var iteration = sliderValue * 1000;
@@ -30,6 +38,12 @@ window.updateIterationValue = function(sliderValue) {
 
 // Iteration panel functions - make it globally accessible
 window.updateIterationImages = function(sliderValue) {
+  // Don't update images if currently dragging
+  if (window.isSliderDragging) {
+    console.log('Skipping image update - slider is being dragged');
+    return;
+  }
+  
   console.log('updateIterationImages called with value:', sliderValue);
   
   // Convert slider value (0-149) to iteration number (0, 1000, 2000, ..., 149000)
@@ -153,7 +167,7 @@ $(document).ready(function() {
     setInterpolationImage(0);
     $('#interpolation-slider').prop('max', NUM_INTERP_FRAMES - 1);
 
-    // Initialize iteration slider - only update images on change (when dragging stops)
+    // Initialize iteration slider - only update images on mouse release
     // Use jQuery with event delegation that works even after bulmaSlider modifies the DOM
     $(document).on('input', '#iteration-slider', function(event) {
       // Only update the iteration number display during dragging, not images
@@ -163,10 +177,20 @@ $(document).ready(function() {
       }
     });
     
-    $(document).on('change', '#iteration-slider', function(event) {
-      // Update images only when dragging stops
+    // Track mouse down/up to prevent image updates during dragging
+    $(document).on('mousedown', '#iteration-slider', function(event) {
+      if (window.setSliderDragging) {
+        window.setSliderDragging(true);
+      }
+    });
+    
+    $(document).on('mouseup touchend', '#iteration-slider', function(event) {
+      // Update images only when mouse is released
+      if (window.setSliderDragging) {
+        window.setSliderDragging(false);
+      }
       var value = parseInt($(this).val());
-      console.log('Iteration slider changed (stopped dragging):', value);
+      console.log('Mouse released - updating images with value:', value);
       if (window.updateIterationImages) {
         window.updateIterationImages(value);
       }
