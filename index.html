@@ -347,6 +347,18 @@
         </div>
         <!-- Interactive Iteration Panel -->
         <div class="iteration-panel" style="margin-top: 2rem; margin-bottom: 2rem;">
+          <div class="slider-container" style="margin-bottom: 2rem;">
+            <label class="label" style="margin-bottom: 0.5rem;">Iteration: <span id="iteration-value">0</span></label>
+            <input type="range" id="iteration-slider" class="slider is-fullwidth is-large" 
+                   min="0" max="149" step="1" value="0" 
+                   style="width: 100%;"
+                   oninput="if(window.updateIterationValue) { window.updateIterationValue(parseInt(this.value)); }"
+                   onmousedown="if(window.setSliderDragging) { window.setSliderDragging(true); }"
+                   onmouseup="if(window.handleSliderRelease) { window.handleSliderRelease(this); }"
+                   ontouchend="if(window.handleSliderRelease) { window.handleSliderRelease(this); }"
+                   onchange="return false;"
+                   onmouseleave="if(window.isSliderDragging && window.handleSliderRelease) { window.handleSliderRelease(this); }">
+          </div>
           <div class="columns is-multiline" id="iteration-images-container" style="margin-top: 1rem;">
             <div class="column is-one-fifth" style="padding: 0.5rem;">
               <figure class="image" style="margin: 0;">
@@ -383,18 +395,6 @@
               </figure>
               <p class="has-text-centered" style="margin-top: 0.5rem; font-size: 0.875rem;">Task 4</p>
             </div>
-          </div>
-          <div class="slider-container" style="margin-top: 2rem;">
-            <label class="label" style="margin-bottom: 0.5rem;">Iteration: <span id="iteration-value">0</span></label>
-            <input type="range" id="iteration-slider" class="slider is-fullwidth is-large" 
-                   min="0" max="149" step="1" value="0" 
-                   style="width: 100%;"
-                   oninput="if(window.updateIterationValue) { window.updateIterationValue(parseInt(this.value)); }"
-                   onmousedown="if(window.setSliderDragging) { window.setSliderDragging(true); }"
-                   onmouseup="if(window.handleSliderRelease) { window.handleSliderRelease(this); }"
-                   ontouchend="if(window.handleSliderRelease) { window.handleSliderRelease(this); }"
-                   onchange="return false;"
-                   onmouseleave="if(window.isSliderDragging && window.handleSliderRelease) { window.handleSliderRelease(this); }">
           </div>
         </div>
       </div>
