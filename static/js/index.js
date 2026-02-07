@@ -21,6 +21,8 @@ function setInterpolationImage(i) {
 
 // Iteration panel functions - make it globally accessible
 window.updateIterationImages = function(sliderValue) {
+  console.log('updateIterationImages called with value:', sliderValue);
+  
   // Convert slider value (0-149) to iteration number (0, 1000, 2000, ..., 149000)
   var iteration = sliderValue * 1000;
   var iterationStr = String(iteration).padStart(6, '0');
@@ -30,10 +32,15 @@ window.updateIterationImages = function(sliderValue) {
   var snapshotNum = Math.floor(iteration / 1000) * 5;
   var snapshotStr = String(snapshotNum).padStart(4, '0');
   
+  console.log('Iteration:', iteration, 'Snapshot:', snapshotNum);
+  
   // Update iteration display
   var iterationValueEl = document.getElementById('iteration-value');
   if (iterationValueEl) {
     iterationValueEl.textContent = iteration.toLocaleString();
+    console.log('Updated iteration display to:', iteration.toLocaleString());
+  } else {
+    console.error('iteration-value element not found!');
   }
   
   // Update all 5 task images
@@ -41,18 +48,44 @@ window.updateIterationImages = function(sliderValue) {
     var imagePath = './static/images/visualizations_task_' + task + '/iteration_' + iterationStr + '_snapshot_' + snapshotStr + '.png';
     var imgElement = document.getElementById('task-' + task + '-img');
     if (imgElement) {
-      console.log('Updating task ' + task + ' to:', imagePath);
-      // Update image source
-      imgElement.src = imagePath;
-      // Also handle errors
-      imgElement.onerror = function() {
-        console.error('Failed to load image:', this.src);
-      };
+      var oldSrc = imgElement.src;
+      console.log('Task ' + task + ' - Old src:', oldSrc);
+      console.log('Task ' + task + ' - New path:', imagePath);
+      
+      // Always update the src to force reload (remove old src first to break cache)
+      var newSrc = imagePath + '?v=' + Date.now();
+      if (imgElement.src !== newSrc) {
+        // Break the reference by setting to empty first
+        imgElement.removeAttribute('src');
+        // Then set the new src
+        imgElement.setAttribute('src', newSrc);
+        console.log('Task ' + task + ' - Set src to:', imgElement.src);
+      } else {
+        // If same src, force reload by toggling
+        imgElement.style.display = 'none';
+        imgElement.offsetHeight; // Force reflow
+        imgElement.style.display = '';
+        imgElement.src = newSrc;
+      }
+      
+      // Handle errors
+      imgElement.onerror = function(taskNum) {
+        return function() {
+          console.error('Failed to load image for task ' + taskNum + ':', this.src);
+        };
+      }(task);
+      
+      imgElement.onload = function(taskNum) {
+        return function() {
+          console.log('Successfully loaded image for task ' + taskNum);
+        };
+      }(task);
+      
       // Prevent drag and right-click
       imgElement.ondragstart = function() { return false; };
       imgElement.oncontextmenu = function() { return false; };
     } else {
-      console.warn('Image element not found for task ' + task);
+      console.error('Image element not found for task ' + task);
     }
   }
 };
